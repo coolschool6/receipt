@@ -19,8 +19,8 @@
         <div id="receiptDetails">
             <section class="detail-section">
                 <h2>Business Information</h2>
-                <p><strong>Name:</strong> SwiftPay Solutions</p>
-                <p><strong>Contact:</strong> contact@swiftpaysolutions.com</p>
+                    <p><strong>Name:</strong> <span id="viewBusinessName"></span></p>
+                    <p><strong>Contact:</strong> <span id="viewBusinessContact"></span></p>
             </section>
 
             <section class="detail-section">
@@ -47,8 +47,8 @@
             </section>
 
             <div class="action-buttons" id="businessActions">
-                <button id="whatsappSendButton">Send via WhatsApp</button>
-                <button onclick="window.location.href='receipts.html'; return false;">Back to All Receipts</button>
+                 <button id="whatsappSendButton" style="display: none;">Send via WhatsApp</button>
+                 <button onclick="window.location.href='receipts.html'; return false;" style="display: none;">Back to All Receipts</button>
             </div>
         </div>
         <div id="receiptNotFound" style="display: none;">Receipt not found.</div>

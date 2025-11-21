@@ -21,22 +21,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('receiptViewTitle').textContent = `Receipt Details - ${receipt.receiptId}`;
     document.getElementById('viewBusinessName').textContent = receipt.businessName || "";
-    document.getElementById('viewCustomerName').textContent = receipt.customerName;
-    document.getElementById('viewCustomerPhone').textContent = receipt.customerPhone;
-    document.getElementById('viewReceiptId').textContent = receipt.receiptId;
-    document.getElementById('viewTransactionDate').textContent = receipt.transactionDate;
-    document.getElementById('viewAmount').textContent = receipt.amount;
-    document.getElementById('viewPaymentMethod').textContent = receipt.paymentMethod;
-    document.getElementById('viewDescription').textContent = receipt.description;
-    document.getElementById('viewConfirmationImage').src = receipt.confirmationImage;
+    // Remove contact info if present
+    var contactSpan = document.getElementById('viewBusinessContact');
+    if (contactSpan) contactSpan.parentElement.style.display = 'none';
+    document.getElementById('viewCustomerName').textContent = receipt.customerName || '';
+    document.getElementById('viewCustomerPhone').textContent = receipt.customerPhone || '';
+    document.getElementById('viewReceiptId').textContent = receipt.receiptId || '';
+    document.getElementById('viewTransactionDate').textContent = receipt.transactionDate || '';
+    document.getElementById('viewAmount').textContent = receipt.amount || '';
+    document.getElementById('viewPaymentMethod').textContent = receipt.paymentMethod || '';
+    document.getElementById('viewDescription').textContent = receipt.description || '';
+    document.getElementById('viewConfirmationImage').src = receipt.confirmationImage || '';
 
     // WhatsApp send button
     const waBtn = document.getElementById('whatsappSendButton');
-    waBtn.onclick = function() {
-        // WhatsApp web link with receipt link
-        const phone = encodeURIComponent(receipt.customerPhone.replace(/[^\d+]/g, ''));
-        const receiptLink = `${window.location.origin}/view-receipt.html?id=${encodeURIComponent(receipt.receiptId)}`;
-        const msg = encodeURIComponent(`Hello ${receipt.customerName}, here is your receipt for ${receipt.amount} (${receipt.description || 'Payment'}).\nView your confirmation receipt: ${receiptLink}`);
-        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-    };
+    const backBtn = document.querySelector('#businessActions button[onclick]');
+    if (isCustomer) {
+        if (waBtn) waBtn.style.display = 'none';
+        if (backBtn) backBtn.style.display = 'none';
+    } else {
+        if (waBtn) {
+            waBtn.style.display = '';
+            waBtn.onclick = function() {
+                const phone = encodeURIComponent(receipt.customerPhone.replace(/[^\d+]/g, ''));
+                const receiptLink = `${window.location.origin}/view-receipt.html?id=${encodeURIComponent(receipt.receiptId)}`;
+                const msg = encodeURIComponent(`Hello ${receipt.customerName}, here is your receipt for ${receipt.amount} (${receipt.description || 'Payment'}).\nView your confirmation receipt: ${receiptLink}`);
+                window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+            };
+        }
+        if (backBtn) backBtn.style.display = '';
+    }
 });

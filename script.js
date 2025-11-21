@@ -42,8 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Gather form data
             const data = {
-                businessName: 'SwiftPay Solutions',
-                businessContact: 'contact@swiftpaysolutions.com',
+                businessName: form.businessName.value.trim(),
                 customerName: form.customerName.value.trim(),
                 customerPhone: form.customerPhone.value.trim(),
                 transactionDate: form.transactionDate.value,
