@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('receiptViewTitle').textContent = `Receipt Details - ${receipt.receiptId}`;
+    document.getElementById('viewBusinessName').textContent = receipt.businessName || "";
     document.getElementById('viewCustomerName').textContent = receipt.customerName;
     document.getElementById('viewCustomerPhone').textContent = receipt.customerPhone;
     document.getElementById('viewReceiptId').textContent = receipt.receiptId;
