@@ -40,19 +40,19 @@ document.addEventListener('DOMContentLoaded', function () {
             submitButton.disabled = true;
             submitButton.textContent = 'Generating...';
 
-            // Gather form data
-            const data = {
-                businessName: 'SwiftPay Solutions',
-                businessContact: 'contact@swiftpaysolutions.com',
-                customerName: form.customerName.value.trim(),
-                customerPhone: form.customerPhone.value.trim(),
-                transactionDate: form.transactionDate.value,
-                receiptId: form.receiptId.value.trim(),
-                paymentMethod: form.paymentMethod.value,
-                amount: form.amount.value,
-                description: form.description.value.trim(),
-                confirmationImage: null // Will be set below
-            };
+                // Gather form data
+                const data = {
+                    businessName: form.businessName.value.trim(),
+                    businessContact: 'contact@swiftpaysolutions.com', // Hardcoded, not in form
+                    customerName: form.customerName.value.trim(),
+                    customerPhone: form.customerPhone.value.trim(),
+                    transactionDate: form.transactionDate.value,
+                    receiptId: form.receiptId.value.trim(),
+                    paymentMethod: form.paymentMethod.value,
+                    amount: form.amount.value,
+                    description: form.description.value.trim(),
+                    confirmationImage: null // Will be set below
+                };
 
             // Validate required fields
             if (!data.customerName || !data.customerPhone || !data.transactionDate || !data.paymentMethod || !data.amount) {
@@ -94,27 +94,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 link.style.marginTop = '0.7rem';
                 messageArea.appendChild(link);
 
-                // WhatsApp button
+                // WhatsApp image send simulation
                 const whatsappArea = document.getElementById('whatsappArea');
                 whatsappArea.innerHTML = '';
-                const waBtn = document.createElement('button');
-                waBtn.textContent = 'Send via WhatsApp';
-                waBtn.type = 'button';
-                waBtn.style.background = '#25D366';
-                waBtn.style.color = '#fff';
-                waBtn.style.marginTop = '1rem';
-                waBtn.style.fontWeight = 'bold';
-                waBtn.style.border = 'none';
-                waBtn.style.borderRadius = '5px';
-                waBtn.style.padding = '0.7rem 1.2rem';
-                waBtn.style.cursor = 'pointer';
-                waBtn.onclick = function() {
-                    // WhatsApp web link (cannot attach image directly, but can send a message with a link)
-                    const phone = encodeURIComponent(data.customerPhone.replace(/[^\d+]/g, ''));
-                    const msg = encodeURIComponent(`Hello ${data.customerName}, here is your receipt for ${data.amount} (${data.description || 'Payment'}).\nView your receipt: ${window.location.origin}/view-receipt.html?id=${encodeURIComponent(data.receiptId)}\nBank confirmation image: [see receipt link]`);
-                    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-                };
-                whatsappArea.appendChild(waBtn);
+                const waDiv = document.createElement('div');
+                waDiv.style.marginTop = '1.2rem';
+                waDiv.style.textAlign = 'center';
+                waDiv.innerHTML = `<strong>To send via WhatsApp:</strong><br>Long-press or right-click the image below to save it, then send it directly in your WhatsApp chat with the customer.`;
+                const img = document.createElement('img');
+                img.src = data.confirmationImage;
+                img.alt = 'Receipt Confirmation';
+                img.style.maxWidth = '180px';
+                img.style.display = 'block';
+                img.style.margin = '0.7rem auto 0.2rem auto';
+                waDiv.appendChild(img);
+                whatsappArea.appendChild(waDiv);
 
                 form.reset();
                 if (dateInput) dateInput.value = today;

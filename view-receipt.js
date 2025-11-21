@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('receiptViewTitle').textContent = `Receipt Details - ${receipt.receiptId}`;
+    document.getElementById('viewBusinessName').textContent = receipt.businessName;
+    document.getElementById('viewBusinessContact').textContent = receipt.businessContact;
     document.getElementById('viewCustomerName').textContent = receipt.customerName;
     document.getElementById('viewCustomerPhone').textContent = receipt.customerPhone;
     document.getElementById('viewReceiptId').textContent = receipt.receiptId;
@@ -29,15 +31,30 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('viewDescription').textContent = receipt.description;
     document.getElementById('viewConfirmationImage').src = receipt.confirmationImage;
 
+    // Print button
+    const printBtn = document.getElementById('printReceiptButton');
+    if (printBtn) {
+        printBtn.onclick = function() {
+            window.print();
+        };
+    }
+
     // WhatsApp send button
     const waBtn = document.getElementById('whatsappSendButton');
-    waBtn.onclick = function() {
-        const phone = encodeURIComponent(receipt.customerPhone.replace(/[^\d+]/g, ''));
-        const receiptLink = `${window.location.origin}/view-receipt.html?id=${encodeURIComponent(receipt.receiptId)}`;
-        const imageLink = receipt.confirmationImage;
-        const msg = encodeURIComponent(
-            `Hello ${receipt.customerName}, here is your receipt for ${receipt.amount} (${receipt.description || 'Payment'}).\nView your receipt: ${receiptLink}\nBank confirmation image: ${imageLink}`
+    if (waBtn) {
+        // Prepare the basic message text
+        const waMessage = encodeURIComponent(
+            `Hello ${receipt.customerName},\n\n` +
+            `Thank you for your payment! Here is your receipt from ${receipt.businessName}.\n\n` +
+            `Receipt ID: ${receipt.receiptId}\n` +
+            `Amount: $${receipt.amount}\n` +
+            `Date: ${receipt.transactionDate}\n\n` +
+            `Please see the attached file/image for the official receipt.`
         );
-        window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
-    };
+        // WhatsApp link structure (customerPhone includes country code)
+        const waLink = `https://web.whatsapp.com/send?phone=${receipt.customerPhone}&text=${waMessage}`;
+        waBtn.onclick = function() {
+            window.open(waLink, '_blank');
+        };
+    }
 });
