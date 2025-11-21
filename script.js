@@ -94,27 +94,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 link.style.marginTop = '0.7rem';
                 messageArea.appendChild(link);
 
-                // WhatsApp image send simulation
+                // WhatsApp button and image download
                 const whatsappArea = document.getElementById('whatsappArea');
                 whatsappArea.innerHTML = '';
-                const waDiv = document.createElement('div');
-                waDiv.style.marginTop = '1.2rem';
-                waDiv.style.textAlign = 'center';
-                waDiv.innerHTML = `<strong>To send via WhatsApp:</strong><br>Long-press or right-click the image below to save it, then send it directly in your WhatsApp chat with the customer.`;
+                // Show the confirmation image
                 const img = document.createElement('img');
                 img.src = data.confirmationImage;
-                img.alt = 'Receipt Confirmation';
-                img.style.maxWidth = '180px';
+                img.alt = 'Confirmation Image';
+                img.style.maxWidth = '120px';
                 img.style.display = 'block';
-                img.style.margin = '0.7rem auto 0.2rem auto';
-                waDiv.appendChild(img);
-                whatsappArea.appendChild(waDiv);
+                img.style.margin = '1rem auto';
+                whatsappArea.appendChild(img);
+
+                // WhatsApp button
+                const waBtn = document.createElement('button');
+                waBtn.textContent = 'Send via WhatsApp';
+                waBtn.type = 'button';
+                waBtn.style.background = '#25D366';
+                waBtn.style.color = '#fff';
+                waBtn.style.marginTop = '1rem';
+                waBtn.style.fontWeight = 'bold';
+                waBtn.style.border = 'none';
+                waBtn.style.borderRadius = '5px';
+                waBtn.style.padding = '0.7rem 1.2rem';
+                waBtn.style.cursor = 'pointer';
+                waBtn.onclick = function() {
+                    // Download the image
+                    const a = document.createElement('a');
+                    a.href = data.confirmationImage;
+                    a.download = 'confirmation-image.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    // WhatsApp web link (user must attach the image manually)
+                    const phone = encodeURIComponent(data.customerPhone.replace(/[^\d+]/g, ''));
+                    const msg = encodeURIComponent(`Hello ${data.customerName}, here is your receipt for ${data.amount} (${data.description || 'Payment'}). Please attach the confirmation image you just downloaded.`);
+                    window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+                };
+                whatsappArea.appendChild(waBtn);
 
                 form.reset();
                 if (dateInput) dateInput.value = today;
                 imagePreview.innerHTML = '';
                 submitButton.disabled = false;
-                submitButton.textContent = 'Generate Receipt';
+                submitButton.textContent = 'Generated';
             };
             reader.readAsDataURL(file);
         });
