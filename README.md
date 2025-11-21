@@ -1,2 +1,0 @@
-# receipt
-my website
