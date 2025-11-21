@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftPay Solutions - View Receipt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 id="receiptViewTitle">Receipt Details - [Loading...]</h1>
+        <nav>
+            <a href="/index.html">Create New Receipt</a> |
+            <a href="/receipts.html">All Receipts</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div id="receiptDetails">
+            <section class="detail-section">
+                <h2>Business Information</h2>
+                <p><strong>Name:</strong> SwiftPay Solutions</p>
+                <p><strong>Contact:</strong> contact@swiftpaysolutions.com</p>
+            </section>
+
+            <section class="detail-section">
+                <h2>Customer Details</h2>
+                <p><strong>Name:</strong> <span id="viewCustomerName"></span></p>
+                <p><strong>Phone:</strong> <span id="viewCustomerPhone"></span></p>
+            </section>
+
+            <section class="detail-section">
+                <h2>Transaction Details</h2>
+                <p><strong>Receipt ID:</strong> <span id="viewReceiptId"></span></p>
+                <p><strong>Date:</strong> <span id="viewTransactionDate"></span></p>
+                <p><strong>Amount:</strong> $<span id="viewAmount"></span></p>
+                <p><strong>Payment Method:</strong> <span id="viewPaymentMethod"></span></p>
+                <p><strong>Description:</strong> <span id="viewDescription"></span></p>
+            </section>
+
+            <section class="detail-section">
+                <h2>Bank Confirmation Image</h2>
+                <img id="viewConfirmationImage" src="" alt="Bank Confirmation" class="confirmation-image-display">
+                <small>Right-click to save image.</small>
+            </section>
+
+            <div class="action-buttons">
+                <button id="whatsappSendButton">Send via WhatsApp</button>
+                <button onclick="window.location.href='receipts.html'; return false;">Back to All Receipts</button>
+            </div>
+        </div>
+        <div id="receiptNotFound" style="display: none;">Receipt not found.</div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 SwiftPay Solutions. All rights reserved.</p>
+    </footer>
+
+    <script src="view-receipt.js"></script>
+</body>
+</html>
