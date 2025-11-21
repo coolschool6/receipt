@@ -97,15 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 // WhatsApp button and image download
                 const whatsappArea = document.getElementById('whatsappArea');
                 whatsappArea.innerHTML = '';
-                // Show the confirmation image
-                const img = document.createElement('img');
-                img.src = data.confirmationImage;
-                img.alt = 'Confirmation Image';
-                img.style.maxWidth = '120px';
-                img.style.display = 'block';
-                img.style.margin = '1rem auto';
-                whatsappArea.appendChild(img);
-
                 // WhatsApp button
                 const waBtn = document.createElement('button');
                 waBtn.textContent = 'Send via WhatsApp';
@@ -119,16 +110,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 waBtn.style.padding = '0.7rem 1.2rem';
                 waBtn.style.cursor = 'pointer';
                 waBtn.onclick = function() {
-                    // Download the image
-                    const a = document.createElement('a');
-                    a.href = data.confirmationImage;
-                    a.download = 'confirmation-image.png';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    // WhatsApp web link (user must attach the image manually)
+                    // WhatsApp web link with receipt link
                     const phone = encodeURIComponent(data.customerPhone.replace(/[^\d+]/g, ''));
-                    const msg = encodeURIComponent(`Hello ${data.customerName}, here is your receipt for ${data.amount} (${data.description || 'Payment'}). Please attach the confirmation image you just downloaded.`);
+                    const receiptLink = `${window.location.origin}/view-receipt.html?id=${encodeURIComponent(data.receiptId)}`;
+                    const msg = encodeURIComponent(`Hello ${data.customerName}, here is your receipt for ${data.amount} (${data.description || 'Payment'}).\nView your confirmation receipt: ${receiptLink}`);
                     window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
                 };
                 whatsappArea.appendChild(waBtn);

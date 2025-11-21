@@ -32,16 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // WhatsApp send button
     const waBtn = document.getElementById('whatsappSendButton');
     waBtn.onclick = function() {
-        // Download the image
-        const a = document.createElement('a');
-        a.href = receipt.confirmationImage;
-        a.download = 'confirmation-image.png';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        // WhatsApp web link (user must attach the image manually)
+        // WhatsApp web link with receipt link
         const phone = encodeURIComponent(receipt.customerPhone.replace(/[^\d+]/g, ''));
-        const msg = encodeURIComponent(`Hello ${receipt.customerName}, here is your receipt for ${receipt.amount} (${receipt.description || 'Payment'}). Please attach the confirmation image you just downloaded.`);
+        const receiptLink = `${window.location.origin}/view-receipt.html?id=${encodeURIComponent(receipt.receiptId)}`;
+        const msg = encodeURIComponent(`Hello ${receipt.customerName}, here is your receipt for ${receipt.amount} (${receipt.description || 'Payment'}).\nView your confirmation receipt: ${receiptLink}`);
         window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
     };
 });
