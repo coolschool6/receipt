@@ -40,19 +40,19 @@ document.addEventListener('DOMContentLoaded', function () {
             submitButton.disabled = true;
             submitButton.textContent = 'Generating...';
 
-                // Gather form data
-                const data = {
-                    businessName: form.businessName.value.trim(),
-                    businessContact: 'contact@swiftpaysolutions.com', // Hardcoded, not in form
-                    customerName: form.customerName.value.trim(),
-                    customerPhone: form.customerPhone.value.trim(),
-                    transactionDate: form.transactionDate.value,
-                    receiptId: form.receiptId.value.trim(),
-                    paymentMethod: form.paymentMethod.value,
-                    amount: form.amount.value,
-                    description: form.description.value.trim(),
-                    confirmationImage: null // Will be set below
-                };
+            // Gather form data
+            const data = {
+                businessName: 'SwiftPay Solutions',
+                businessContact: 'contact@swiftpaysolutions.com',
+                customerName: form.customerName.value.trim(),
+                customerPhone: form.customerPhone.value.trim(),
+                transactionDate: form.transactionDate.value,
+                receiptId: form.receiptId.value.trim(),
+                paymentMethod: form.paymentMethod.value,
+                amount: form.amount.value,
+                description: form.description.value.trim(),
+                confirmationImage: null // Will be set below
+            };
 
             // Validate required fields
             if (!data.customerName || !data.customerPhone || !data.transactionDate || !data.paymentMethod || !data.amount) {

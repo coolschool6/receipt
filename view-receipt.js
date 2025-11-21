@@ -20,8 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.getElementById('receiptViewTitle').textContent = `Receipt Details - ${receipt.receiptId}`;
-    document.getElementById('viewBusinessName').textContent = receipt.businessName;
-    document.getElementById('viewBusinessContact').textContent = receipt.businessContact;
     document.getElementById('viewCustomerName').textContent = receipt.customerName;
     document.getElementById('viewCustomerPhone').textContent = receipt.customerPhone;
     document.getElementById('viewReceiptId').textContent = receipt.receiptId;
@@ -31,30 +29,33 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('viewDescription').textContent = receipt.description;
     document.getElementById('viewConfirmationImage').src = receipt.confirmationImage;
 
-    // Print button
-    const printBtn = document.getElementById('printReceiptButton');
-    if (printBtn) {
-        printBtn.onclick = function() {
-            window.print();
-        };
-    }
-
     // WhatsApp send button
     const waBtn = document.getElementById('whatsappSendButton');
-    if (waBtn) {
-        // Prepare the basic message text
-        const waMessage = encodeURIComponent(
-            `Hello ${receipt.customerName},\n\n` +
-            `Thank you for your payment! Here is your receipt from ${receipt.businessName}.\n\n` +
-            `Receipt ID: ${receipt.receiptId}\n` +
-            `Amount: $${receipt.amount}\n` +
-            `Date: ${receipt.transactionDate}\n\n` +
-            `Please see the attached file/image for the official receipt.`
-        );
-        // WhatsApp link structure (customerPhone includes country code)
-        const waLink = `https://web.whatsapp.com/send?phone=${receipt.customerPhone}&text=${waMessage}`;
-        waBtn.onclick = function() {
-            window.open(waLink, '_blank');
-        };
-    }
+    waBtn.onclick = function() {
+        // Show modal or message with image and instructions
+        let modal = document.getElementById('waImageModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'waImageModal';
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100vw';
+            modal.style.height = '100vh';
+            modal.style.background = 'rgba(0,0,0,0.7)';
+            modal.style.display = 'flex';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.zIndex = '9999';
+            modal.innerHTML = `<div style="background:#fff;padding:1.5rem 1.2rem;border-radius:10px;max-width:90vw;text-align:center;position:relative;">
+                <button id="waCloseModal" style="position:absolute;top:0.5rem;right:0.7rem;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
+                <strong>To send via WhatsApp:</strong><br>Long-press or right-click the image below to save it, then send it directly in your WhatsApp chat with the customer.<br><br>
+                <img src="${receipt.confirmationImage}" alt="Receipt Confirmation" style="max-width:220px;display:block;margin:0.7rem auto 0.2rem auto;border-radius:8px;">
+            </div>`;
+            document.body.appendChild(modal);
+            document.getElementById('waCloseModal').onclick = function() {
+                modal.remove();
+            };
+        }
+    };
 });
