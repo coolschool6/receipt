@@ -117,11 +117,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 };
                 whatsappArea.appendChild(waBtn);
 
+                submitButton.disabled = false;
+                submitButton.textContent = 'Generated';
                 form.reset();
                 if (dateInput) dateInput.value = today;
                 imagePreview.innerHTML = '';
-                submitButton.disabled = false;
-                submitButton.textContent = 'Generated';
             };
             reader.readAsDataURL(file);
         });
